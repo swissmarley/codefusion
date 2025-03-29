@@ -1,6 +1,10 @@
 # <p align="center"> 👨🏼‍💻 AI CodeFusion 👨🏼‍💻 </p>
 
-AI CodeFusion is a web application that generates code based on natural language descriptions. It features a real-time code preview and supports multiple AI models for code generation.
+AI CodeFusion is a web application that generates code based on natural language descriptions. It features a real-time code preview and supports multiple AI models for code generation
+
+
+https://github.com/user-attachments/assets/e2ee1283-8353-4906-af67-a1f1ef2c63ea
+
 
 ## Features
 
