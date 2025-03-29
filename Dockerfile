@@ -30,6 +30,8 @@ ENV PORT=5000
 ENV SECRETS_DIR=/run/secrets
 ENV OPENAI_API_KEY_FILE=/run/secrets/openai_key
 ENV ANTHROPIC_API_KEY_FILE=/run/secrets/anthropic_key
+ENV GEMINI_API_KEY_FILE=/run/secrets/gemini_key
+ENV XAI_API_KEY_FILE=/run/secrets/xai_key
 
 # Expose port
 EXPOSE 5000
