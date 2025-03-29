@@ -61,7 +61,7 @@ cd client
 npm install
 ```
 
-4. Configure your environment variables: Create a `.env` file in the `server` directory with your API keys:
+4. Configure your environment variables: Rename `.env.example`  to `.env` in the `server` directory  and insert your API keys:
 
 ```bash
 OPENAI_API_KEY=your_openai_key
@@ -85,6 +85,42 @@ npm run dev
 ```
 
 3. Open `http://localhost:5173` in your browser
+
+
+## Run in Docker Container
+
+#### Method 1
+
+```bash
+docker run -p 5000:5000 \
+    -e OPENAI_API_KEY=your_key \
+    -e ANTHROPIC_API_KEY=your_key \
+    -e GEMINI_API_KEY=your_key \
+    -e XAI_API_KEY=your_key \
+    ghcr.io/swissmarley/codefusion:latest
+```
+
+#### Method 2
+
+1. Create secrets:
+```bash
+echo "your_openai_key" | docker secret create openai_key -
+echo "your_anthropic_key" | docker secret create anthropic_key -
+echo "your_gemini_key" | docker secret create gemini_key -
+echo "your_xai_key" | docker secret create xai_key -
+```
+
+2. Run Container with secrets:
+```bash
+docker service create \
+    --name codefusion \
+    --secret openai_key \
+    --secret anthropic_key \
+    --secret gemini_key \
+    --secret xai_key \
+    -p 5000:5000 \
+    ghcr.io/swissmarley/codefusion:latest
+```
 
 
 ## Usage
