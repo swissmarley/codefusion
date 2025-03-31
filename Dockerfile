@@ -36,8 +36,8 @@ ENV OPENAI_API_KEY_FILE=/run/secrets/openai_key
 ENV XAI_API_KEY_FILE=/run/secrets/xai_key
 
 # Copy the launch script
-COPY start.sh .
-RUN chmod +x start.sh
+COPY start_docker.sh .
+RUN chmod +x start_docker.sh
 
 # Expose port
 EXPOSE 5004
