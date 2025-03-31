@@ -27,8 +27,6 @@ https://github.com/user-attachments/assets/e2ee1283-8353-4906-af67-a1f1ef2c63ea
 - Flask
 - Flask-CORS
 - OpenAI API
-- Anthropic Claude API (optional)
-- Google Gemini API (optional)
 - xAI Grok API (optional)
 
 ## Getting Started
@@ -65,8 +63,6 @@ npm install
 
 ```bash
 OPENAI_API_KEY=your_openai_key
-ANTHROPIC_API_KEY=your_anthropic_key
-GEMINI_API_KEY=your_gemini_key
 XAI_API_KEY=your_xai_key
 ```
 
@@ -94,9 +90,6 @@ npm run dev
 ```bash
 docker run -p 5000:5000 \
     -e OPENAI_API_KEY=your_key \
-    -e ANTHROPIC_API_KEY=your_key \
-    -e GEMINI_API_KEY=your_key \
-    -e XAI_API_KEY=your_key \
     ghcr.io/swissmarley/codefusion:latest
 ```
 
@@ -105,9 +98,6 @@ docker run -p 5000:5000 \
 1. Create secrets:
 ```bash
 echo "your_openai_key" | docker secret create openai_key -
-echo "your_anthropic_key" | docker secret create anthropic_key -
-echo "your_gemini_key" | docker secret create gemini_key -
-echo "your_xai_key" | docker secret create xai_key -
 ```
 
 2. Run Container with secrets:
@@ -115,9 +105,6 @@ echo "your_xai_key" | docker secret create xai_key -
 docker service create \
     --name codefusion \
     --secret openai_key \
-    --secret anthropic_key \
-    --secret gemini_key \
-    --secret xai_key \
     -p 5000:5000 \
     ghcr.io/swissmarley/codefusion:latest
 ```
