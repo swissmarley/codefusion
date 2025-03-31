@@ -88,7 +88,8 @@ npm run dev
 #### Method 1
 
 ```bash
-docker run -p 5000:5000 \
+docker run -p 5004:5004 \
+    -p 5173:5173 \
     -e OPENAI_API_KEY=your_key \
     ghcr.io/swissmarley/codefusion:latest
 ```
@@ -105,9 +106,12 @@ echo "your_openai_key" | docker secret create openai_key -
 docker service create \
     --name codefusion \
     --secret openai_key \
-    -p 5000:5000 \
+    -p 5004:5004 \
+    -p 5173:5173 \
     ghcr.io/swissmarley/codefusion:latest
 ```
+
+3. Open `http://localhost:5173` in your browser
 
 
 ## Usage
