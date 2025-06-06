@@ -33,6 +33,19 @@ function App() {
     }
   };
 
+  // New download function to save generated code as HTML file
+  const handleDownloadCode = () => {
+    const blob = new Blob([generatedCode], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "generated-code.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   // --------------------------------------------------------------------------------
   // 1) Handle the initial code generation
   // --------------------------------------------------------------------------------
@@ -123,8 +136,6 @@ function App() {
     }
     setIsLoading(true);
 
-    // We'll combine the existing code with the new instructions
-    // so the model can produce an updated code snippet.
     const combinedPrompt = `
       The current code is:
       \`\`\`
@@ -140,7 +151,6 @@ function App() {
     setGeneratedCode(""); // Clear out while we wait for new code
 
     if (useStreaming) {
-      // --- STREAMING approach ---
       try {
         const response = await fetch("http://localhost:5004/generate-code-stream", {
           method: "POST",
@@ -168,12 +178,11 @@ function App() {
             done = true;
           } else {
             const chunk = decoder.decode(value, { stream: true });
-            // SSE events come in as lines prefixed with "data: "
             const lines = chunk.split("\n");
             for (let line of lines) {
               if (line.startsWith("data: ")) {
                 try {
-                  const jsonText = line.substring(6); // remove "data: "
+                  const jsonText = line.substring(6);
                   const token = JSON.parse(jsonText);
                   codeAccumulator += token;
                   setGeneratedCode(codeAccumulator);
@@ -184,7 +193,6 @@ function App() {
             }
           }
         }
-
         setIsLoading(false);
       } catch (error) {
         console.error("Error streaming code:", error);
@@ -192,7 +200,6 @@ function App() {
         setGeneratedCode("Error generating code. Check console for details.");
       }
     } else {
-      // --- NON-STREAMING approach (Axios) ---
       try {
         const response = await axios.post("http://localhost:5004/generate-code", {
           prompt: combinedPrompt,
@@ -207,7 +214,6 @@ function App() {
       }
     }
 
-    // Clear the enhancement prompt after sending
     setEnhancementPrompt("");
   };
 
@@ -280,17 +286,21 @@ function App() {
         <div className="codeContainer">
           <h2>Generated Code</h2>
           <div className="copyWrapper">
-          {/* The Copy Button */}
-          <button
-            className="copyButton"
-            onClick={() => {
-              navigator.clipboard.writeText(generatedCode);
-              alert("Code copied to clipboard!");
-            }}
-          >
-            📋
-          </button>
-        </div>
+            {/* The Copy Button */}
+            <button
+              className="copyButton"
+              onClick={() => {
+                navigator.clipboard.writeText(generatedCode);
+                alert("Code copied to clipboard!");
+              }}
+            >
+              📋
+            </button>
+            {/* New Download Button */}
+            <button className="downloadButton" onClick={handleDownloadCode}>
+              📥
+            </button>
+          </div>
           <pre className="codeBox">{generatedCode}</pre>
         </div>
         <div className="previewContainer">
